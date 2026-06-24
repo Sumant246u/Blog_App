@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
+
+
 import { assets, blogCategories } from '../../assets/assets'
 import Quill from 'quill';
 import { useAppContext } from '../../context/AppContext';
@@ -8,7 +10,7 @@ import { parse } from 'marked'
 
 const AddBlog = () => {
 
-  const { axios } = useAppContext();
+  const { axios, fetchBlogs } = useAppContext();
   const [isAdding, SetIsAdding] = useState(false)
   const [loading, SetLoading] = useState(false)
 
@@ -38,6 +40,7 @@ const AddBlog = () => {
       const { data } = await axios.post(`/api/blog/add`, formData)
       if (data.success) {
         toast.success(data.message)
+        await fetchBlogs()
         SetImage(false)
         SetTitle('')
         quillRef.current.root.innerHTML = ''

@@ -1,4 +1,3 @@
-import { json } from 'express';
 import jwt from 'jsonwebtoken'
 import Blog from '../models/Blog.js';
 import Comment from '../models/comment.js';
@@ -16,7 +15,7 @@ export const adminLogin = async (req, res) => {
         const token = jwt.sign({ email },process.env.JWT_SECRET)
         res.json({success:true, token})
     } catch (error) {
-        res,json({success:false, message:error.message})
+        res.json({success:false, message:error.message})
     }
 }
 
@@ -26,7 +25,7 @@ export const getAllBlogAdmin = async (req, res)=>{
         const blogs= await Blog.find ({}). sort({createdAt: -1});
         res.json({success : true, blogs})
     } catch (error) {
-        res,json({success:false, message:error.message})
+        res.json({success:false, message:error.message})
     }
 }
 
@@ -39,7 +38,7 @@ export const getAllCooments = async (req, res)=>{
       res.json({success: true, comments})
 
     } catch (error) {
-        res,json({success:false, message:error.message})
+        res.json({success:false, message:error.message})
     }
 }
 
@@ -71,7 +70,7 @@ export const deleteCommentById = async (req, res)=>{
         res.json({success:true, message:' Comment deleteed successfully'})
         
     } catch (error) {
-        res,json({success:false, message:error.message})
+        res.json({success:false, message:error.message})
     }
 }
 
@@ -84,6 +83,6 @@ export const ApproveCommentById = async (req, res)=>{
         res.json({success:true, message:' Comment approved successfully'})
         
     } catch (error) {
-        res,json({success:false, message:error.message})
+        res.json({success:false, message:error.message})
     }
 }

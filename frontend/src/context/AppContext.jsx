@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
-axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL?.trim() || '';
 
 
 
@@ -40,7 +40,7 @@ export const AppProvider = ({ children }) => {
     },[])
 
     const value = {
-        axios, navigate,SetToken, token, blogs, SetBlogs, input, SetInput
+        axios, navigate, SetToken, token, blogs, SetBlogs, input, SetInput, fetchBlogs
     }
 
     return (

@@ -8,7 +8,7 @@ const BlogTableItem = ({ blog, index, fetchBlog }) => {
     const { title, createdAt } = blog;
     const BlogDate = new Date(createdAt);
 
-    const { axios } = useAppContext();
+    const { axios, fetchBlogs } = useAppContext();
 
     const deleteBlog = async () => {
         const confirm = window.confirm('Are you sure you want to delete this blog ?');
@@ -19,6 +19,7 @@ const BlogTableItem = ({ blog, index, fetchBlog }) => {
             if (data.success) {
                 toast.success(data.message);
                 await fetchBlog();
+                await fetchBlogs();
             } else {
                 toast.error(data.message);
             }
@@ -35,6 +36,7 @@ const BlogTableItem = ({ blog, index, fetchBlog }) => {
         if (data.success) {
             toast.success(data.message);
             await fetchBlog();
+            await fetchBlogs();
         } else {
             toast.error(data.message);
         }

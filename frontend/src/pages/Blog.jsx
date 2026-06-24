@@ -32,7 +32,7 @@ const Blog = () => {
   const fetchComments = async () => {
     // SetComments(comments_data)
     try {
-      const {data} = await axios.post('api/blog/comments',{blogId: id})
+      const {data} = await axios.post('/api/blog/comments',{blogId: id})
       if (data.success) {
         SetComments(data.comments)
       }else{
@@ -47,7 +47,7 @@ const Blog = () => {
     e.preventDefault();
 
     try {
-      const {data} = await axios.post('api/blog/add-comment',{blog: id,name, content})
+      const {data} = await axios.post('/api/blog/add-comment',{blog: id,name, content})
 
       if (data.success) {
         toast.success(data.message)

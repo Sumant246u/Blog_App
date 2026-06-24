@@ -1,4 +1,3 @@
-import fs from 'fs'
 import imagekit from '../configs/imagekit.js';
 import Blog from '../models/Blog.js';
 import Comment from '../models/comment.js';
@@ -11,15 +10,12 @@ export const addBlog = async (req, res) => {
         const { title, subTitle, description, category, isPublished } = JSON.parse(req.body.blog);
         const imageFile = req.file;
 
-        //Check if all field are pressent
-        if (!title || !subTitle || !description || !category || !isPublished) {
+        if (!title || !subTitle || !description || !category || !imageFile) {
             return res.json({ success: false, message: 'Missing required fields' })
         }
 
-        // upload image to  imagekit
-        const fileBuffer = fs.readFileSync(imageFile.path)
         const response = await imagekit.upload({
-            file: fileBuffer,
+            file: imageFile.buffer,
             fileName: imageFile.originalname,
             folder: '/blogs'
         })
@@ -55,7 +51,7 @@ export const getAllBlogs = async (req, res) => {
         const blogs = await Blog.find({ isPublished: true })
         res.json({ success: true, blogs })
     } catch (error) {
-        res.json({ success: error, message: error.message })
+        res.json({ success: false, message: error.message })
     }
 }
 
@@ -148,6 +144,12 @@ export const generateContent = async (req, res) => {
         res.json({ success: true, content })
 
     } catch (error) {
-        res.json({ success: false, message: error.message })
+        const message = error?.message || "Failed to generate content";
+        const friendlyMessage = message.includes("503")
+            ? "Gemini is busy right now. Please try again in a few seconds."
+            : message.includes("429")
+                ? "Gemini free quota reached. Please wait a minute and try again."
+                : message;
+        res.json({ success: false, message: friendlyMessage })
     }
 }
