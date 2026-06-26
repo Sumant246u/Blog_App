@@ -19,6 +19,7 @@ const Login = () => {
                 SetToken(data.token)
                 localStorage.setItem('token', data.token)
                 axios.defaults.headers.common['Authorization'] = data.token
+                toast.success('Login successful')
             } else {
                 toast.error(data.message)
             }

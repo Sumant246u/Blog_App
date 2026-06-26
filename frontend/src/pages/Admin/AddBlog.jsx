@@ -95,7 +95,7 @@ const AddBlog = () => {
         <input onChange={(e) => SetTitle(e.target.value)} value={title} type="text" placeholder='Type here' required className='w-full max-w-lg mt-2 pt-2 border border-gray-300 outline-none rounded ' />
 
         <p className='mt-4'>SubTitle</p>
-        <input onChange={(e) => SetSubTitle(e.target.value)} value={subTitle} type="text" placeholder='Type here' required className='w-full max-w-lg mt-2 pt-2 border border-gray-300 outline-none rounded ' />
+        <input onChange={(e) => SetSubTitle(e.target.value)} value={subTitle} type="text" placeholder='Type here' className='w-full max-w-lg mt-2 pt-2 border border-gray-300 outline-none rounded ' />
 
         <p className='mt-4'>Blog Description</p>
         <div className='max-w-lg pb-16 sm:pb-10 pt-2 relative'>
@@ -104,7 +104,7 @@ const AddBlog = () => {
             <div className='absolute right-0 top-0 bottom-0 left-0 flex items-center justify-center bg-black/10  mt-2'>
               <div className='w-8 h-8 rounded-full border-2 border-t-white animate-spin'></div>
             </div>)}
-          <button disabled={loading} onClick={generateContent} type='submit' className='absolute bottom-1 right-2 ml-2 text-xs text-white bg-black/70 px-4 py-1.5 rounded hover:underline cursor-pointer'>Generate with AI</button>
+          <button disabled={loading} onClick={generateContent} type='button' className='absolute bottom-1 right-2 ml-2 text-xs text-white bg-black/70 px-4 py-1.5 rounded hover:underline cursor-pointer'>Generate with AI</button>
         </div>
 
         <p className='mt-4'>Blog Category</p>

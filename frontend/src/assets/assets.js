@@ -244,16 +244,29 @@ export const dashboard_data = {
 }
 
 export const footer_data = [
-      {
-          title: "Quick Links",
-          links: ["Home", "Best Sellers", "Offers & Deals", "Contact Us", "FAQs"]
-      },
-      {
-          title: "Need Help?",
-          links: ["Delivery Information", "Return & Refund Policy", "Payment Methods", "Track your Order", "Contact Us"]
-      },
-      {
-          title: "Follow Us",
-          links: ["Instagram", "Twitter", "Facebook", "YouTube"]
-      }
-  ];
+    {
+        title: "Quick Links",
+        links: [
+            { label: "Home", to: "/" },
+            { label: "All Blogs", to: { pathname: '/', hash: '#blogs' } },
+            { label: "Admin", to: "/admin" },
+        ]
+    },
+    {
+        title: "Categories",
+        links: [
+            { label: "Technology", to: "/?category=Technology#blogs" },
+            { label: "Startup", to: "/?category=Startup#blogs" },
+            { label: "Lifestyle", to: "/?category=Lifestyle#blogs" },
+            { label: "Finance", to: "/?category=Finance#blogs" },
+        ]
+    },
+    {
+        title: "Follow Us",
+        links: [
+            { label: "Twitter", href: "https://twitter.com" },
+            { label: "Facebook", href: "https://facebook.com" },
+            { label: "LinkedIn", href: "https://linkedin.com" },
+        ]
+    }
+];

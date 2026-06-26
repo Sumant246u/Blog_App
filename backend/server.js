@@ -4,11 +4,26 @@ import cors from 'cors'
 import connectDB from './configs/db.js';
 import adminRouter from './Routes/AdminRoutes.js';
 import blogRouter from './Routes/BlogRoutes.js';
+import newsletterRouter from './Routes/NewsletterRoutes.js';
 
 const app = express();
 
-app.use(cors())
-app.use(express.json())
+const allowedOrigins = [
+    process.env.FRONTEND_URL,
+    'http://localhost:5173',
+    'http://localhost:4173',
+].filter(Boolean);
+
+app.use(cors({
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(null, allowedOrigins[0]);
+        }
+    },
+}));
+app.use(express.json({ limit: '1mb' }))
 
 app.use(async (req, res, next) => {
     try {
@@ -24,6 +39,7 @@ app.get('/', (req, res) => res.send('API is working'))
 
 app.use('/api/admin', adminRouter)
 app.use('/api/blog', blogRouter)
+app.use('/api/newsletter', newsletterRouter)
 
 if (!process.env.VERCEL) {
     const PORT = process.env.PORT || 3000;
