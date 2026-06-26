@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 export const verifyAdminPassword = async (password) => {
     if (process.env.ADMIN_PASSWORD_HASH) {
