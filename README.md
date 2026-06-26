@@ -9,12 +9,14 @@ A production-ready MERN blogging platform with an admin CMS, AI-assisted writing
 
 ## Live Demo
 
-After deploying (see [Deploy to Vercel](#deploy-to-vercel) below), replace these with your URLs:
+After deploying to Vercel, update these URLs:
 
 | App | URL |
 |-----|-----|
-| **Frontend** | `https://YOUR-FRONTEND.vercel.app` |
-| **API** | `https://YOUR-BACKEND.vercel.app` |
+| **Frontend** | `https://your-frontend.vercel.app` |
+| **API** | `https://your-backend.vercel.app` |
+
+**GitHub:** [github.com/Sumant246u/Blog_App](https://github.com/Sumant246u/Blog_App)
 
 ## Features
 
@@ -110,65 +112,98 @@ npm test
 # or: npx vitest run
 ```
 
-## Deploy to Vercel
+## Deploy to Vercel (fresh setup)
 
-Deploy **backend and frontend as two separate Vercel projects**.
+Deploy **two separate Vercel projects** from the same repo:  
+[github.com/Sumant246u/Blog_App](https://github.com/Sumant246u/Blog_App)
 
-### Step 1 — Push to GitHub
+### Before you start
 
-```bash
-git add .
-git commit -m "Prepare for deployment"
-git push origin main
-```
+1. **MongoDB Atlas** → Network Access → allow `0.0.0.0/0` (so Vercel can connect)
+2. Generate admin password hash locally:
+   ```bash
+   cd backend
+   node scripts/hash-password.js YourSecurePassword
+   ```
+   Copy the `ADMIN_PASSWORD_HASH` output for Vercel.
 
-### Step 2 — Deploy Backend
+---
 
-1. Go to [vercel.com/new](https://vercel.com/new) → Import your GitHub repo
-2. Set **Root Directory** to `backend`
-3. Add these **Environment Variables**:
+### Step 1 — Deploy Backend
+
+1. Go to [vercel.com/new](https://vercel.com/new)
+2. Import **Blog_App** from GitHub
+3. **Project name:** e.g. `blog-app-api`
+4. **Root Directory:** click Edit → set to `backend`
+5. **Framework Preset:** Other
+6. Add **Environment Variables** (Production):
 
 | Variable | Value |
 |----------|-------|
-| `MONGODB_URI` | Your MongoDB Atlas connection string |
-| `ADMIN_EMAIL` | Your admin email |
-| `ADMIN_PASSWORD_HASH` | From `node scripts/hash-password.js` |
-| `JWT_SECRET` | A long random string |
+| `MONGODB_URI` | Your MongoDB Atlas URI |
+| `ADMIN_EMAIL` | Your admin login email |
+| `ADMIN_PASSWORD_HASH` | From `hash-password.js` script |
+| `JWT_SECRET` | Long random string (e.g. 32+ chars) |
 | `JWT_EXPIRES_IN` | `7d` |
-| `GEMINI_API_KEY` | Your Gemini API key |
+| `GEMINI_API_KEY` | Google Gemini API key |
 | `IMAGEKIT_PUBLIC_KEY` | ImageKit public key |
 | `IMAGEKIT_PRIVATE_KEY` | ImageKit private key |
-| `IMAGEKIT_URL_ENDPOINT` | ImageKit URL endpoint |
-| `FRONTEND_URL` | *(add after frontend deploy)* |
+| `IMAGEKIT_URL_ENDPOINT` | `https://ik.imagekit.io/your-id` |
 | `VERCEL` | `1` |
 
-4. Click **Deploy** → copy your API URL (e.g. `https://quickblog-api.vercel.app`)
+7. Click **Deploy**
+8. Copy your backend URL → e.g. `https://blog-app-api.vercel.app`
+9. Test: open `https://blog-app-api.vercel.app/` → should show `API is working`
 
-### Step 3 — Deploy Frontend
+> `FRONTEND_URL` is added in Step 3 after frontend deploy.
 
-1. Create another Vercel project from the same repo
-2. Set **Root Directory** to `frontend`
-3. Add environment variable:
+---
+
+### Step 2 — Deploy Frontend
+
+1. Go to [vercel.com/new](https://vercel.com/new) again
+2. Import the **same Blog_App** repo
+3. **Project name:** e.g. `blog-app`
+4. **Root Directory:** click Edit → set to `frontend`
+5. **Framework Preset:** Vite (auto-detected)
+6. Add **Environment Variable**:
 
 | Variable | Value |
 |----------|-------|
-| `VITE_BASE_URL` | Your backend URL from Step 2 |
+| `VITE_BASE_URL` | Your backend URL from Step 1 (no trailing slash) |
 
-4. Click **Deploy** → copy your frontend URL
+Example: `https://blog-app-api.vercel.app`
 
-### Step 4 — Connect CORS
+7. Click **Deploy**
+8. Copy your frontend URL → e.g. `https://blog-app.vercel.app`
 
-1. Go back to **backend** project on Vercel → Settings → Environment Variables
-2. Set `FRONTEND_URL` to your frontend URL (e.g. `https://quickblog.vercel.app`)
-3. **Redeploy** the backend
+---
+
+### Step 3 — Connect CORS (required)
+
+1. Open **backend** project on Vercel → **Settings** → **Environment Variables**
+2. Add:
+   | Variable | Value |
+   |----------|-------|
+   | `FRONTEND_URL` | Your frontend URL from Step 2 |
+3. Go to **Deployments** → click **⋯** on latest → **Redeploy**
+
+---
+
+### Step 4 — Verify
+
+| Test | Expected |
+|------|----------|
+| Frontend home | Blogs load, no CORS errors in browser console (F12) |
+| `/admin` | Login works with your admin email + password |
+| Add blog | Image uploads, saves to MongoDB |
+| Newsletter | Subscribe shows success toast |
+
+---
 
 ### Step 5 — Update README
 
-Replace the Live Demo URLs at the top of this README with your real URLs.
-
-### MongoDB Atlas note
-
-In Atlas → Network Access, allow `0.0.0.0/0` so Vercel serverless functions can connect.
+Replace the Live Demo URLs at the top of this README with your real Vercel URLs and push to GitHub.
 
 ## API Overview
 
