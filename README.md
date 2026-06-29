@@ -13,7 +13,7 @@ After deploying to Vercel, update these URLs:
 
 | App | URL |
 |-----|-----|
-| **Frontend** | `https://sumantblog.vercel.app/` |
+| **Frontend** | `https://frontend-blog-iota-flax.vercel.app/` |
 | **API** | `https://blog-app-five-pearl.vercel.app/` |
 
 **GitHub:** [github.com/Sumant246u/Blog_App](https://github.com/Sumant246u/Blog_App)
